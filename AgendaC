@@ -1,0 +1,92 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <locale.h>
+
+#define TAM_NOME 100
+
+
+void listarContato();
+void adicionarContato();
+void alterarContato();
+void excluirContato();
+
+
+
+        typedef struct
+    {
+        char nome_contato [ TAM_NOME ];
+        int telefone [ 11 ];
+        int email [ 200 ];
+        char endereco [300];
+    } contato ;
+
+
+
+
+int main(){
+
+    setlocale(LC_ALL,"");
+
+    int opcao;
+
+
+
+        printf("------------------------------------------\n");
+        printf("- 1. Listar Contatos:                    -\n");
+        printf("- 2. Adicionar Contato:                  -\n");
+        printf("- 3. Alterar Contato:                    -\n");
+        printf("- 4. Excluir Contato:                    -\n");
+        printf("- 0. Sair:                               -\n");
+        printf("------------------------------------------\n");
+
+        scanf("%i", &opcao);
+
+    switch (opcao)
+    {
+
+    case 1:
+        listarContatos();
+        break;
+
+    case 2:
+        adicionarContato();
+        break;
+
+    case 3:
+        alterarContato();
+        break;
+
+    case 4:
+        excluirContato();
+        break;
+
+    case 0:
+        printf("------------------------------------------\n");
+        printf("-SAINDO ,_,                              -\n");
+        printf("------------------------------------------\n");
+        break;
+
+    default:
+        printf("------------------------------------------\n");
+        printf("- Essa Opção não Existe.                 -\n");
+        printf("------------------------------------------\n");
+        break;
+
+    }
+
+
+    return 0;
+
+}
+
+void listarContato()
+{}
+
+void adicionarContato()
+{}
+
+void alterarContato()
+{}
+
+void excluirContato()
+{}
