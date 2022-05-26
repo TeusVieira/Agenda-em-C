@@ -4,15 +4,14 @@
 
 #define TAM_NOME 100
 
-
-void listarContato();
 void adicionarContato();
+/*void listarContato();
 void alterarContato();
-void excluirContato();
+void excluirContato();*/
 
 
 
-        typedef struct
+        typedef struct agenda
     {
         char nome_contato [ TAM_NOME ];
         int telefone [ 11 ];
@@ -24,10 +23,18 @@ void excluirContato();
 
 
 int main(){
-
+ 
     setlocale(LC_ALL,"");
 
+
+        // Criação do Arquivo
+    FILE ptrArquivo = NULL;
+    fopen ptrArquivo("DADOS-DO-REGISTRO.txt", "a");
+
+
+
     int opcao;
+    contato usuario;
 
 
 
@@ -79,14 +86,21 @@ int main(){
 
 }
 
-void listarContato()
-{}
 
 void adicionarContato()
+{
+
+    
+
+}
+
+
+/*void listarContato()
 {}
+
 
 void alterarContato()
 {}
 
 void excluirContato()
-{}
+{}*/
