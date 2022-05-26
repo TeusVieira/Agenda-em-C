@@ -27,7 +27,7 @@ int main(){
     setlocale(LC_ALL,"");
 
 
-        // Criação do Arquivo
+        // Criação do Arquivo e abertura do arquivo
     FILE ptrArquivo = NULL;
     fopen ptrArquivo("DADOS-DO-REGISTRO.txt", "a");
 
@@ -37,8 +37,9 @@ int main(){
     contato usuario;
 
 
+ // laço para o Usuário decidir o que o codigo ira executar
+do{
 
-do(){
         printf("------------------------------------------\n");
         printf("- 1. Listar Contatos:                    -\n");
         printf("- 2. Adicionar Contato:                  -\n");
@@ -90,10 +91,15 @@ do(){
 }
 
 
-void adicionarContato()
+void adicionarContato(contato usuario)
 {
 
-    if(ptrArquivo != NULL)
+    if(ptrArquivo != NULL){
+
+            printf("NOME DO CONTATO: \n");
+            scanf("%[^\n]s", )
+        
+    }
 
 }
 
