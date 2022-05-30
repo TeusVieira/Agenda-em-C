@@ -4,10 +4,6 @@
 
 #define TAM_NOME 100
 
-void adicionarContato();
-/*void listarContato();
-void alterarContato();
-void excluirContato();*/
 
 
 
@@ -20,21 +16,24 @@ void excluirContato();*/
     } contato ;
 
 
+void adicionarContatos( contato usuario );
+void listarContatos( contato usuario );
+void alterarContatos( contato usuario );
+void excluirContatos( contato usuario );
 
 
-int main(){
+int main( ){
  
     setlocale(LC_ALL,"");
 
 
         // Criação do Arquivo e abertura do arquivo
-    FILE ptrArquivo = NULL;
-    fopen ptrArquivo("DADOS-DO-REGISTRO.txt", "a");
+        FILE *ptrArquivo = NULL;
+        ptrArquivo = fopen ("DADOS-DO-REGISTRO.txt", "w");
 
 
-
-    int opcao;
-    contato usuario;
+        int opcao;
+        contato usuario;
 
 
  // laço para o Usuário decidir o que o codigo ira executar
@@ -54,19 +53,19 @@ do{
     {
 
     case 1:
-        listarContatos();
+        listarContatos(usuario);
         break;
 
     case 2:
-        adicionarContato();
+        adicionarContatos(usuario);
         break;
 
     case 3:
-        alterarContato();
+        alterarContatos(usuario);
         break;
 
     case 4:
-        excluirContato();
+        excluirContatos(usuario);
         break;
 
     case 0:
@@ -84,33 +83,37 @@ do{
     }
 
 
-}while(opcao == 0);
+}while(opcao != 0);
 
     return 0;
 
 }
 
 
-void adicionarContato(contato usuario)
+void adicionarContatos( contato usuario )
 {
-
-    if(ptrArquivo != NULL){
-
-            printf("NOME DO CONTATO: \n");
-            scanf("%[^\n]s", )
-        
-    }
-
+    setlocale(LC_ALL,"");
+    printf("Função não implementada. \n");
 }
 
 
-/*void listarContato()
-{}
+void listarContatos( contato usuario)
+{
+     setlocale(LC_ALL,"");
+     printf("Função não implementada. \n");
+}
 
 
-void alterarContato()
-{}
+void alterarContatos(contato usuario)
+{
+     setlocale(LC_ALL,"");
+     printf("Função não implementada. \n");
+}
 
-void excluirContato()
-{}*/
+void excluirContatos(contato usuario)
+{
+     setlocale(LC_ALL,"");
+     printf("Função não implementada. \n");
+}
 
+//Autor TeusVieira&Alioh
