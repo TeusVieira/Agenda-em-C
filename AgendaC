@@ -11,7 +11,7 @@
     {
         char nome_contato [ TAM_NOME ];
         int telefone [ 11 ];
-        int email [ 200 ];
+        char email [ 200 ];
         char endereco [300];
     } contato ;
 
@@ -82,8 +82,12 @@ do{
 
     }
 
+  
 
 }while(opcao != 0);
+
+    fclose (ptrArquivo);
+    ptrArquivo = NULL;
 
     return 0;
 
@@ -92,22 +96,52 @@ do{
 
 void adicionarContatos( contato usuario )
 {
-    setlocale(LC_ALL,"");
-    printf("Função não implementada. \n");
+     printf("Função não implementada. \n");
 }
 
 
 void listarContatos( contato usuario)
 {
-     setlocale(LC_ALL,"");
-     printf("Função não implementada. \n");
+      setlocale(LC_ALL,"");
+     printf("Fun��o n�o implementada. \n");
 }
 
 
 void alterarContatos(contato usuario)
 {
-     setlocale(LC_ALL,"");
-     printf("Função não implementada. \n");
+    int usuario_para_alterar;
+    contato usuario_alterar;
+    char confimar_acao;
+
+     printf("Qual Contato deseja Alterar? \n");
+     scanf("%i", &usuario_para_alterar);
+
+     printf("NOME: \n");
+     fflush(stdin);
+     scanf("%[^\n]s", &usuario_alterar.nome_contato);
+     printf("TELEFONE: \n");
+     scanf("%i", &usuario_alterar.telefone);
+     printf("EMAIL: \n");
+     fflush(stdin);
+     scanf("%[^\n]s", &usuario_alterar.email);
+     printf("ENDEREÇO: \n");
+     fflush(stdin);
+     scanf("%[^\n]s", &usuario_alterar.endereco);
+
+ do
+ {
+
+    printf("Deseja Confirmar ?? (S/N)");
+    fflush(stdin);
+    scanf("%c",&confimar_acao);
+    tolower(confimar_acao);
+
+ } while( confimar_acao != 's' || confimar_acao != 'n' ) ;
+ 
+     
+
+    
+
 }
 
 void excluirContatos(contato usuario)
