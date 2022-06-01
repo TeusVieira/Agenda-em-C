@@ -1,1 +1,147 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <locale.h>
 
+#define TAM_NOME 100
+
+
+
+
+   typedef struct agenda
+ {
+     char nome_contato [ TAM_NOME ];
+     char endereco [300];
+     char tipo_endereco;
+     int numero_endereco;
+     int telefone [ 11 ];
+     int tipo_telefone;
+     char email [ 200 ];
+     char rede_social;
+     char tipo_de_rede;
+ } contato ;
+
+
+void adicionarContatos( contato usuario );
+void listarContatos( contato usuario );
+void alterarContatos( contato usuario );
+void excluirContatos( contato usuario );
+
+
+int main( ){
+ 
+    setlocale(LC_ALL,"");
+
+
+        // Criação do Arquivo e abertura do arquivo
+        FILE *ptrArquivo = NULL;
+        ptrArquivo = fopen ("DADOS-DO-REGISTRO.txt", "w");
+
+
+        int opcao;
+        contato usuario;
+
+
+ // laço para o Usuário decidir o que o codigo ira executar
+do{
+
+        printf("------------------------------------------\n");
+        printf("- 1. Listar Contatos:                    -\n");
+        printf("- 2. Adicionar Contato:                  -\n");
+        printf("- 3. Alterar Contato:                    -\n");
+        printf("- 4. Excluir Contato:                    -\n");
+        printf("- 0. Sair:                               -\n");
+        printf("------------------------------------------\n");
+
+        scanf("%i", &opcao);
+
+    switch (opcao)
+    {
+
+    case 1:
+        listarContatos(usuario);
+        break;
+
+    case 2:
+        adicionarContatos(usuario);
+        break;
+
+    case 3:
+        alterarContatos(usuario);
+        break;
+
+    case 4:
+        excluirContatos(usuario);
+        break;
+
+    case 0:
+        printf("------------------------------------------\n");
+        printf("-SAINDO ,_,                              -\n");
+        printf("------------------------------------------\n");
+        break;
+
+    default:
+        printf("------------------------------------------\n");
+        printf("- Essa Opção não Existe.                 -\n");
+        printf("------------------------------------------\n");
+        break;
+
+    }
+
+
+}while(opcao != 0);
+
+    return 0;
+
+}
+
+
+void adicionarContatos( contato usuario )
+{
+    setlocale(LC_ALL,"");
+    printf(" ... ADICIONANDO CONTATO.\n");
+    
+    printf(" - NOME DO CONTATO: \n");
+    fflush(stdin);
+    scanf("%[^\n]s", &usuario.nome_contato);
+
+    printf(" - ENDEREÇO: ");
+    fflush(stdin);
+    scanf("%c", &usuario.endereco);
+
+    printf(" - NUMERO ENDEREÇO: ");
+    scanf("%i", &usuario.telefone);
+
+    printf(" - E-MAIL: ");
+    fflush(stdin);
+    scanf("%c", &usuario.email);
+
+    printf(" - REDE SOCIAL: ");
+    scanf("%c", &)
+
+
+
+    
+
+}
+
+
+void listarContatos( contato usuario)
+{
+     setlocale(LC_ALL,"");
+     printf("Função não implementada. \n");
+}
+
+
+void alterarContatos(contato usuario)
+{
+     setlocale(LC_ALL,"");
+     printf("Função não implementada. \n");
+}
+
+void excluirContatos(contato usuario)
+{
+     setlocale(LC_ALL,"");
+     printf("Função não implementada. \n");
+}
+
+//Autor TeusVieira&Alioh
