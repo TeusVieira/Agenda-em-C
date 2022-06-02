@@ -27,7 +27,7 @@ int main( ){
     setlocale(LC_ALL,"");
 
 
-        // Criação do Arquivo e abertura do arquivo
+        // CriaÃ§Ã£o do Arquivo e abertura do arquivo
         FILE *ptrArquivo = NULL;
         ptrArquivo = fopen ("DADOS-DO-REGISTRO.txt", "w");
 
@@ -36,7 +36,7 @@ int main( ){
         contato usuario;
 
 
- // laço para o Usuário decidir o que o codigo ira executar
+ // laÃ§o para o UsuÃ¡rio decidir o que o codigo ira executar
 do{
 
         printf("------------------------------------------\n");
@@ -103,7 +103,7 @@ void adicionarContatos( contato usuario )
 void listarContatos( contato usuario)
 {
       setlocale(LC_ALL,"");
-     printf("Fun��o n�o implementada. \n");
+     printf("Função não implementada. \n");
 }
 
 
@@ -124,7 +124,7 @@ void alterarContatos(contato usuario)
      printf("EMAIL: \n");
      fflush(stdin);
      scanf("%[^\n]s", &usuario_alterar.email);
-     printf("ENDEREÇO: \n");
+     printf("ENDEREÃO: \n");
      fflush(stdin);
      scanf("%[^\n]s", &usuario_alterar.endereco);
 
@@ -133,8 +133,15 @@ void alterarContatos(contato usuario)
 
     printf("Deseja Confirmar ?? (S/N)");
     fflush(stdin);
-    scanf("%c",&confimar_acao);
-    tolower(confimar_acao);
+    scanf("%c", &confimar_acao);
+    confimar_acao = tolower(confimar_acao);
+
+        if(confimar_acao == 's'){
+            printf("DEU BOOM, MEU REI \n");
+            break;
+        }else{
+            printf("NUMERO NÃO ALTERADO, MENO OLHA ISSO AI \n");
+        }
 
  } while( confimar_acao != 's' || confimar_acao != 'n' ) ;
  
