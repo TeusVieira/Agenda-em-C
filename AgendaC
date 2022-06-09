@@ -5,19 +5,22 @@
 #define TAM_NOME 100
 
 
+    typedef struct agenda
+ {
+     char nome_contato [ TAM_NOME ];
+     char endereco [300];
+     int tipo_endereco;
+     int numero_endereco;
+     char telefone [ 11 ];
+     int tipo_telefone;
+     char email [ 200 ];
+     char rede_social[100];
+     char tipo_de_rede;
+ } contato ;
 
 
-        typedef struct agenda
-    {
-        char nome_contato [ TAM_NOME ];
-        int telefone [ 11 ];
-        char email [ 200 ];
-        char endereco [300];
-    } contato ;
-
-
-void adicionarContatos( contato usuario );
-void listarContatos( contato usuario );
+void adicionarContatos( contato usuario[100], int *i);
+void listarContatos( contato usuario[100], int *i);
 void alterarContatos( contato usuario );
 void excluirContatos( contato usuario );
 
@@ -27,16 +30,17 @@ int main( ){
     setlocale(LC_ALL,"");
 
 
-        // CriaÃ§Ã£o do Arquivo e abertura do arquivo
+        // Criação do Arquivo e abertura do arquivo
         FILE *ptrArquivo = NULL;
         ptrArquivo = fopen ("DADOS-DO-REGISTRO.txt", "w");
 
 
-        int opcao;
-        contato usuario;
+        int opcao, total;
+        total = 0;
+        contato usuario[100];
 
 
- // laÃ§o para o UsuÃ¡rio decidir o que o codigo ira executar
+ // laÃ§o para o Usuário decidir o que o codigo ira executar
 do{
 
         printf("------------------------------------------\n");
@@ -53,19 +57,19 @@ do{
     {
 
     case 1:
-        listarContatos(usuario);
+        listarContatos(usuario, &total);
         break;
 
     case 2:
-        adicionarContatos(usuario);
+         adicionarContatos(usuario, &total);
         break;
 
     case 3:
-        alterarContatos(usuario);
+        alterarContatos(usuario[total]);
         break;
 
     case 4:
-        excluirContatos(usuario);
+        excluirContatos(usuario[total]);
         break;
 
     case 0:
@@ -94,16 +98,47 @@ do{
 }
 
 
-void adicionarContatos( contato usuario )
+void adicionarContatos( contato usuario[100], int *i)
 {
-     printf("Função não implementada. \n");
+    setlocale(LC_ALL,"");
+    printf(" ... ADICIONANDO CONTATO.\n");
+    
+    printf(" - NOME DO CONTATO: \n");
+    fflush(stdin);
+    scanf("%[^\n]s", &usuario[*i].nome_contato);
+
+    printf(" - ENDEREÇO: \n");
+    fflush(stdin);
+    scanf("%[^\n]s", &usuario[*i].endereco);
+
+    printf(" - NUMERO: \n");
+    fflush(stdin);
+    scanf("%[^\n]s", &usuario[*i].telefone);
+
+    printf(" - E-MAIL: \n");
+    fflush(stdin);
+    scanf("%[^\n]s", &usuario[*i].email);
+
+    printf(" - REDE SOCIAL: \n");
+    fflush(stdin);
+    scanf("%[^\n]s", &usuario[*i].rede_social);
+
+    (*i)++;
+
+
 }
 
 
-void listarContatos( contato usuario)
+void listarContatos( contato usuario[100], int *i)
 {
-      setlocale(LC_ALL,"");
-     printf("Função não implementada. \n");
+    for (int j = 0; j < *i; j++){
+        printf("- NOME DO CONTATO: %s \n", usuario[j].nome_contato); 
+        printf(" - ENDEREÇO: %s \n ", usuario[j].endereco);
+        printf("- TELEFONE: %i \n", usuario[j].telefone);
+        printf(" - E-MAIL DO CONTATO: %s \n", usuario[j].email);
+        printf(" - REDE SOCIAL: %s \n", usuario[j].rede_social);   
+        }
+    
 }
 
 
@@ -120,11 +155,12 @@ void alterarContatos(contato usuario)
      fflush(stdin);
      scanf("%[^\n]s", &usuario_alterar.nome_contato);
      printf("TELEFONE: \n");
+     fflush(stdin);
      scanf("%i", &usuario_alterar.telefone);
      printf("EMAIL: \n");
      fflush(stdin);
      scanf("%[^\n]s", &usuario_alterar.email);
-     printf("ENDEREÃO: \n");
+     printf("ENDEREÇO: \n");
      fflush(stdin);
      scanf("%[^\n]s", &usuario_alterar.endereco);
 
@@ -154,7 +190,24 @@ void alterarContatos(contato usuario)
 void excluirContatos(contato usuario)
 {
      setlocale(LC_ALL,"");
-     printf("Função não implementada. \n");
+
+        char confimar;
+        int numero_excluir;
+
+     printf("DIGITE QUAL NUMERO DESEJA EXCLUIR. \n");
+     scanf("%i", &numero_excluir);
+     printf("CONFIMAR??( S/N ) \n");
+     scanf("%c", &confimar);
+
+     confimar = tolower(confimar);
+     if( confimar == 's')
+     {
+         printf("NUMERO APAGADO DA SUA VIDA :3 \n");
+     } else {
+         printf("DESISTIU FOI?? HMM >-<");
+     }
+
+
 }
 
 //Autor TeusVieira&Alioh
