@@ -21,8 +21,8 @@
 
 void adicionarContatos( contato usuario[100], int *i);
 void listarContatos( contato usuario[100], int *i);
-void alterarContatos( contato usuario );
-void excluirContatos( contato usuario );
+void alterarContatos(contato usuario);
+void excluirContatos(contato usuario);
 
 
 int main( ){
@@ -145,7 +145,7 @@ void listarContatos( contato usuario[100], int *i)
 void alterarContatos(contato usuario)
 {
     int usuario_para_alterar;
-    contato usuario_alterar;
+    contato usuario_alterar[100];
     char confimar_acao;
 
      printf("Qual Contato deseja Alterar? \n");
@@ -163,6 +163,11 @@ void alterarContatos(contato usuario)
      printf("ENDEREÇO: \n");
      fflush(stdin);
      scanf("%[^\n]s", &usuario_alterar.endereco);
+     printf("REDE SOCIAL: \n");
+     fflush(stdin);
+     scanf("%[^\n]s", &usuario_alterar.rede_social);
+
+    //laço para confimar se o usuario quer mesmo trocar as informações, se sim, ele troca e se não, mantém as informações antigas.
 
  do
  {
@@ -174,10 +179,17 @@ void alterarContatos(contato usuario)
 
         if(confimar_acao == 's'){
             printf("DEU BOOM, MEU REI \n");
+
+        // troca de informações
+
+        usuario[usuario_para_alterar].nome_contato = usuario_alterar.nome_contato;
+
             break;
-        }else{
+        }else if(confimar_acao == 'n'){
             printf("NUMERO NÃO ALTERADO, MENO OLHA ISSO AI \n");
+            break;
         }
+        printf("%c",confimar_acao);
 
  } while( confimar_acao != 's' || confimar_acao != 'n' ) ;
  
@@ -196,10 +208,12 @@ void excluirContatos(contato usuario)
 
      printf("DIGITE QUAL NUMERO DESEJA EXCLUIR. \n");
      scanf("%i", &numero_excluir);
+     fflush(stdin);
      printf("CONFIMAR??( S/N ) \n");
      scanf("%c", &confimar);
-
      confimar = tolower(confimar);
+
+
      if( confimar == 's')
      {
          printf("NUMERO APAGADO DA SUA VIDA :3 \n");
@@ -210,4 +224,4 @@ void excluirContatos(contato usuario)
 
 }
 
-//Autor TeusVieira&Alioh
+//Autor TeusVieira&AliohS
