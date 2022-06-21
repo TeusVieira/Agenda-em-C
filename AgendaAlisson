@@ -310,7 +310,7 @@ void gravarArquivo(contato usuario[100], int nContatos){
 
 int lerArquivo(){
 
-        // Criação do Arquivo e abertura do arquivo
+        // Leitura do arquivo já criado
 
         char *token;
        
