@@ -31,8 +31,8 @@ int main( ){
  
     setlocale(LC_ALL,"");
 
-        int opcao, total;
-        total = 0;
+        int opcao;
+        int total = lerArquivo();
         contato usuario[100];
 
 
@@ -159,24 +159,32 @@ void alterarContatos(contato usuario[], int i)
     contato usuario_alterar;
     char confimar_acao, dados[200], pt;
 
+
+    char linha[200];
+
     FILE *arquivo = NULL;
     arquivo = fopen("agendinha-da-depressaum.txt","a");
 
-    while (!feof(arquivo))
-    {
-        fgets(dados,199, arquivo);
-        if(strlen(dados) > 0){
-          strcpy(dados, "");
-          pt = strtok(dados, "");
-            while(pt){
-                for(int i = 0;i < 199; i++)
-                {
-                    scanf("%s %s %s %s %s", usuario[i].nome_contato, usuario[i].endereco, usuario[i].telefone, usuario[i].email, usuario[i].rede_social);
-                }
-                }
+  
+
+
+    // while (!feof(arquivo))
+    // {
+    //     fgets(dados,199, arquivo);
+    //     if(strlen(dados) > 0)
+    //     {
+    //       strcpy(dados, "");
+    //       pt = strtok(dados, "");
+    //         while()
+    //         {
+    //             for(int i = 0;i < 199; i++)
+    //             {
+                    
+    //             }
+    //         }
             
-        }
-    }
+    //     }
+    // }
     
 
     do
@@ -296,5 +304,47 @@ void gravarArquivo(contato usuario[100], int nContatos){
         
         fclose(ptrArquivo);
         ptrArquivo = NULL;
+}
+
+
+
+int lerArquivo(){
+
+        // Criação do Arquivo e abertura do arquivo
+
+        char *token;
+       
+
+        int total = 0;
+        FILE *ptrArquivo = NULL;
+        ptrArquivo = fopen ("agendinha-da-depressaum.txt", "r");
+        if(ptrArquivo == NULL){
+            printf("Algo deu errado..");
+            return;
+        }
+
+
+    while( (fgets(linha, sizeof(linha), arquivo) ) != NULL){
+
+        token = strtok(linha, ";");
+
+
+        strcpy(agenda[total].nome, token);
+
+        token = strtok(NULL, ";");
+
+        token = strtok(NULL, ";");
+
+        token = strtok(NULL, ";");
+
+        total++;
+    }
+
+            
+            
+        fclose(ptrArquivo);
+        ptrArquivo = NULL;
+
+        return total;
 }
 //Autor TeusVieira&AliohS
