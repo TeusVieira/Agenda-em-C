@@ -4,6 +4,7 @@
 #include <string.h>
 
 #define TAM_NOME 100
+#define TAM_VET 100
 
 
     typedef struct agenda
@@ -12,7 +13,7 @@
      char endereco [300];
      int tipo_endereco;
      int numero_endereco;
-     char telefone [ 11 ];
+     char telefone [ 12 ];
      int tipo_telefone;
      char email [ 200 ];
      char rede_social[100];
@@ -24,31 +25,26 @@ void adicionarContatos( contato usuario[100], int *i);
 void listarContatos( contato usuario[100], int *i);
 void alterarContatos(contato usuario[], int i);
 void excluirContatos(contato usuario);
-void salvarContatos( contato usuario[100], int nContatos );
+void gravarArquivo(contato usuario[100], int nContatos);
 
 int main( ){
  
     setlocale(LC_ALL,"");
-
-
-        // Criaï¿½ï¿½o do Arquivo e abertura do arquivo
-        FILE *ptrArquivo = NULL;
-        ptrArquivo = fopen ("DADOS-DO-REGISTRO.txt", "w");
-
 
         int opcao, total;
         total = 0;
         contato usuario[100];
 
 
- // laï¿½o para o Usuï¿½rio decidir o que o codigo ira executar
+ // laço para o Usuï¿½rio decidir o que o codigo ira executar
 do{
-
+    
         printf("------------------------------------------\n");
         printf("- 1. Listar Contatos:                    -\n");
         printf("- 2. Adicionar Contato:                  -\n");
         printf("- 3. Alterar Contato:                    -\n");
         printf("- 4. Excluir Contato:                    -\n");
+        printf("- 5. Salvar:                             -\n");
         printf("- 0. Sair:                               -\n");
         printf("------------------------------------------\n");
 
@@ -72,6 +68,10 @@ do{
     case 4:
         excluirContatos(usuario[total]);
         break;
+    
+    case 5:
+        gravarArquivo(usuario, total);
+        break;
 
     case 0:
         printf("------------------------------------------\n");
@@ -87,12 +87,8 @@ do{
 
     }
 
-  
 
 }while(opcao != 0);
-
-    fclose (ptrArquivo);
-    ptrArquivo = NULL;
 
     return 0;
 
@@ -103,12 +99,13 @@ void adicionarContatos( contato usuario[100], int *i)
 {
     setlocale(LC_ALL,"");
     printf(" ... ADICIONANDO CONTATO.\n");
+
     
     printf(" - NOME DO CONTATO: \n");
     fflush(stdin);
     scanf("%[^\n]s", &usuario[*i].nome_contato);
 
-    printf(" - ENDEREï¿½O: \n");
+    printf(" - ENDEREÇO: \n");
     fflush(stdin);
     scanf("%[^\n]s", &usuario[*i].endereco);
 
@@ -124,93 +121,129 @@ void adicionarContatos( contato usuario[100], int *i)
     fflush(stdin);
     scanf("%[^\n]s", &usuario[*i].rede_social);
 
+
     (*i)++;
 
 
 }
 
 
-void listarContatos( contato usuario[100], int *i)
+void listarContatos(contato usuario[100], int *numeros_contatos)
 {
-    for (int j = 0; j < *i; j++){
-        printf(" - NOME DO CONTATO: %s \n", usuario[j].nome_contato); 
-        printf(" - ENDEREÇO: %s \n ", usuario[j].endereco);
-        printf(" - TELEFONE: %s \n", usuario[j].telefone);
-        printf(" - E-MAIL DO CONTATO: %s \n", usuario[j].email);
-        printf(" - REDE SOCIAL: %s \n", usuario[j].rede_social);   
+
+    char dados [200];
+    FILE *prtArquivo = NULL;
+    prtArquivo = fopen ("agendinha-da-depressaum.txt", "r");
+    // laço para ler o arquivo e mostrar todos os contatos salvos.
+    //for (int j = 0; j < *numeros_contatos; j++){
+    while ( !feof (prtArquivo) ){
+        fgets ( dados, 199, prtArquivo );
+        if (strlen(dados) > 0)
+            printf("%s", dados);
+        strcpy (dados, "" );
+
+        //fscanf(prtArquivo, "")
+        
         }
     
+    fclose(prtArquivo);
+    prtArquivo = NULL;
+
 }
 
 
 void alterarContatos(contato usuario[], int i)
 {
-    int usuario_para_alterar = 0;
-    contato usuario_alterar;
-    char confirmar_acao;
 
-    do 
+    int usuario_para_alterar = 0, quant_usuarios_do_arq = 0;
+    contato usuario_alterar;
+    char confimar_acao, dados[200], pt;
+
+    FILE *arquivo = NULL;
+    arquivo = fopen("agendinha-da-depressaum.txt","a");
+
+    while (!feof(arquivo))
+    {
+        fgets(dados,199, arquivo);
+        if(strlen(dados) > 0){
+          strcpy(dados, "");
+          pt = strtok(dados, "");
+            while(pt){
+                for(int i = 0;i < 199; i++)
+                {
+                    scanf("%s %s %s %s %s", usuario[i].nome_contato, usuario[i].endereco, usuario[i].telefone, usuario[i].email, usuario[i].rede_social);
+                }
+                }
+            
+        }
+    }
+    
+
+    do
     {
         printf("Qual Contato deseja Alterar? \n");
         scanf("%i", &usuario_para_alterar);
 
-        if ( usuario_para_alterar >= i )
+        if ( usuario_para_alterar >= quant_usuarios_do_arq )
         {
-            printf ( "Usuario inexistente. \n Informe valor entre 0 e %i:", i );
+            printf ( "Usuario inexistente. Informe valor entre 0 e %i:", i );
         }
-        /* code */
-    } while (usuario_para_alterar > 0 && usuario_para_alterar > i);
+        
+    } while (usuario_para_alterar > 0 && usuario_para_alterar > quant_usuarios_do_arq);
     
 
-     printf("NOME: \n");
-     fflush(stdin);
-     scanf("%[^\n]s", usuario_alterar.nome_contato);
+        printf("NOME: \n");
+        fflush(stdin);
+        scanf("%[^\n]s", usuario_alterar.nome_contato);
+        printf("TELEFONE: \n");
+        fflush(stdin);
+        scanf("%i", &usuario_alterar.telefone);
+        printf("EMAIL: \n");
+        fflush(stdin);
+        scanf("%[^\n]s", usuario_alterar.email);
+        printf("ENDEREÇO: \n");
+        fflush(stdin);
+        scanf("%[^\n]s", usuario_alterar.endereco);
+        printf("REDE SOCIAL: \n");
+        fflush(stdin);
+        scanf("%[^\n]s", usuario_alterar.rede_social);
 
-     printf("TELEFONE: \n");
-     fflush(stdin);
-     scanf("%i", &usuario_alterar.telefone);
-
-     printf("EMAIL: \n");
-     fflush(stdin);
-     scanf("%[^\n]s", usuario_alterar.email);
-
-     printf("ENDEREï¿½O: \n");
-     fflush(stdin);
-     scanf("%[^\n]s", usuario_alterar.endereco);
-     
-     printf("REDE SOCIAL: \n");
-     fflush(stdin);
-     scanf("%[^\n]s", usuario_alterar.rede_social);
-
-    //laço para confimar se o usuario quer mesmo trocar as informações, se sim, ele troca e se não, mantém as informações antigas.
+    //laço para confimar se o usuario quer mesmo trocar as informações, se sim, ele troca e se não, mantêm as informaïçoes antigas.
 
 
     printf("Deseja Confirmar ?? (S/N)");
-    do
-    {
+    
+    
     fflush(stdin);
-    scanf("%c", &confirmar_acao);
-    confirmar_acao = tolower(confirmar_acao);
-    }while(confirmar_acao != 's' && confirmar_acao != 'n');
+    scanf("%c", &confimar_acao);
+    confimar_acao = tolower(confimar_acao);
     
-    
-        if(confirmar_acao == 's'){
+        if(confimar_acao == 's'){
             printf("DEU BOOM, MEU REI \n");
 
-        // (Teste)troca de informações [com valores fixo para ver se funciona]
-         strcpy(usuario[usuario_para_alterar].nome_contato, usuario_alterar.nome_contato);
-         strcpy(usuario[usuario_para_alterar].telefone, usuario_alterar.telefone);
-         strcpy(usuario[usuario_para_alterar].email, usuario_alterar.email);
-         strcpy(usuario[usuario_para_alterar].endereco, usuario_alterar.endereco);
-         strcpy(usuario[usuario_para_alterar].rede_social, usuario_alterar.rede_social);
+        // (troca de informações
+         strcpy ( usuario[usuario_para_alterar].nome_contato, usuario_alterar.nome_contato );
+         strcpy ( usuario[usuario_para_alterar].telefone, usuario_alterar.telefone );
+         strcpy ( usuario[usuario_para_alterar].email, usuario_alterar.email );
+         strcpy ( usuario[usuario_para_alterar].endereco, usuario_alterar.endereco) ;
+         strcpy ( usuario[usuario_para_alterar].rede_social, usuario_alterar.rede_social );
 
 
-        }else if(confirmar_acao == 'n'){
+        
+        }else if(confimar_acao == 'n'){
             printf("NUMERO NÃO ALTERADO, MENO OLHA ISSO AI \n");
         
         }
         //printf("%c",confimar_acao);
+
+
+
+ 
+     fclose(arquivo);
+     arquivo = NULL;
+
     
+
 }
 
 void excluirContatos(contato usuario)
@@ -221,8 +254,8 @@ void excluirContatos(contato usuario)
         int numero_excluir;
 
      printf("DIGITE QUAL NUMERO DESEJA EXCLUIR. \n");
-     fflush(stdin);
      scanf("%i", &numero_excluir);
+     fflush(stdin);
      printf("CONFIMAR??( S/N ) \n");
      scanf("%c", &confimar);
      confimar = tolower(confimar);
@@ -230,7 +263,7 @@ void excluirContatos(contato usuario)
 
      if( confimar == 's')
      {
-         printf("NUMERO APAGADO \n");
+         printf("NUMERO APAGADO DA SUA VIDA :3 \n");
      } else {
          printf("DESISTIU FOI?? HMM >-<");
      }
@@ -238,25 +271,30 @@ void excluirContatos(contato usuario)
 
 }
 
-void salvarContatos( contato usuario[100], int nContatos )
-{
-    FILE *ptrArquivo = NULL;
-    
-    ptrArquivo = fopen ( " AGENDINHA DA DEPRESSÃO.txt ", "w" );
-    if ( ptrArquivo == NULL )
-    {
-        printf ( "Não foi possível abrir arquivo para salvar contatos...\n" );
+void gravarArquivo(contato usuario[100], int nContatos){
 
-        return;
-    }
+           // Criação do Arquivo e abertura do arquivo
+       
+        FILE *ptrArquivo = NULL;
+        ptrArquivo = fopen ("agendinha-da-depressaum.txt", "a");
 
-    for ( int i = 0; i < nContatos; i++ )
-    {
-        fprintf ( ptrArquivo, "%s | %s | %s | %s | %s \n", usuario[i].nome_contato, usuario[i].endereco, usuario[i].telefone, usuario[i].email, usuario[i].rede_social);
-    }
+            if(ptrArquivo == NULL){
 
-    fclose ( ptrArquivo );
-    ptrArquivo = NULL;
+                printf("Algo deu errado..");
+                return;
+            }
+
+        for(int l = 0; l < nContatos; l++)
+            {
+                fprintf(ptrArquivo, "%s; %s; %s; %s; %s;\n", 
+                usuario[l].nome_contato,
+                usuario[l].endereco,
+                usuario[l].telefone,
+                usuario[l].email,
+                usuario[l].rede_social );
+            }
+        
+        fclose(ptrArquivo);
+        ptrArquivo = NULL;
 }
-
 //Autor TeusVieira&AliohS
