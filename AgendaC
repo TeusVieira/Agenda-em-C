@@ -21,19 +21,21 @@
  } contato ;
 
 
-void adicionarContatos( contato usuario[100], int *i);
-void listarContatos( contato usuario[100], int *i);
+void adicionarContatos( contato usuario[], int *i);
+void listarContatos( contato usuario[], int *i);
 void alterarContatos(contato usuario[], int i);
-void excluirContatos(contato usuario);
-void gravarArquivo(contato usuario[100], int nContatos);
+void excluirContatos(contato usuario[], int* nContatos);
+void gravarArquivo(contato usuario[], int nContatos);
 
 int main( ){
  
     setlocale(LC_ALL,"");
 
-        int opcao, total;
-        total = 0;
+
         contato usuario[100];
+
+        int opcao;
+        int total = lerArquivo(usuario);
 
 
  // laço para o Usuï¿½rio decidir o que o codigo ira executar
@@ -44,7 +46,8 @@ do{
         printf("- 2. Adicionar Contato:                  -\n");
         printf("- 3. Alterar Contato:                    -\n");
         printf("- 4. Excluir Contato:                    -\n");
-        printf("- 5. Salvar:                             -\n");
+        printf("- 5. Consultar Contato:                  -\n");
+        printf("- 6. Salvar:                             -\n");
         printf("- 0. Sair:                               -\n");
         printf("------------------------------------------\n");
 
@@ -66,10 +69,13 @@ do{
         break;
 
     case 4:
-        excluirContatos(usuario[total]);
+        excluirContatos(usuario, &total);
+        break;
+    case 5:
+        consultarContatos(usuario, total);
         break;
     
-    case 5:
+    case 6:
         gravarArquivo(usuario, total);
         break;
 
@@ -95,7 +101,28 @@ do{
 }
 
 
-void adicionarContatos( contato usuario[100], int *i)
+void ordenarContatos( contato usuario[], int nContatos)
+{
+    int comp;
+    contato secundaria;
+
+    for (int i = 0; i < nContatos; i++)
+    {
+        for (int j = i+1; j < nContatos; j++)
+        {
+            comp = strcmp(usuario[i].nome_contato, usuario[j].nome_contato);
+            if (comp>0){
+                secundaria = usuario[i];
+                usuario[i] = usuario[j];
+                usuario[j] = secundaria;
+            }
+    }
+    
+}
+
+}
+
+void adicionarContatos( contato usuario[], int *i)
 {
     setlocale(LC_ALL,"");
     printf(" ... ADICIONANDO CONTATO.\n");
@@ -124,30 +151,27 @@ void adicionarContatos( contato usuario[100], int *i)
 
     (*i)++;
 
+    ordenarContatos(usuario, *i);
+
 
 }
 
 
-void listarContatos(contato usuario[100], int *numeros_contatos)
+void listarContatos(contato usuario[], int *numeros_contatos)
 {
 
-    char dados [200];
-    FILE *prtArquivo = NULL;
-    prtArquivo = fopen ("agendinha-da-depressaum.txt", "r");
-    // laço para ler o arquivo e mostrar todos os contatos salvos.
-    //for (int j = 0; j < *numeros_contatos; j++){
-    while ( !feof (prtArquivo) ){
-        fgets ( dados, 199, prtArquivo );
-        if (strlen(dados) > 0)
-            printf("%s", dados);
-        strcpy (dados, "" );
-
-        //fscanf(prtArquivo, "")
-        
-        }
     
-    fclose(prtArquivo);
-    prtArquivo = NULL;
+    for (int j = 0; j < *numeros_contatos; j++){
+
+        printf("CONTATO %i\n", j);
+        printf("NOME: %s\n", usuario[j].nome_contato);
+        printf("TELEFONE: %s\n", usuario[j].telefone);
+        printf("EMAIL: %s\n", usuario[j].email);
+        printf("ENDEREÇO: %s\n", usuario[j].endereco);
+        printf("REDE SOCIAL: %s\n", usuario[j].rede_social);
+        printf("\n");
+
+    }
 
 }
 
@@ -158,25 +182,6 @@ void alterarContatos(contato usuario[], int i)
     int usuario_para_alterar = 0, quant_usuarios_do_arq = 0;
     contato usuario_alterar;
     char confimar_acao, dados[200], pt;
-
-    FILE *arquivo = NULL;
-    arquivo = fopen("agendinha-da-depressaum.txt","a");
-
-    while (!feof(arquivo))
-    {
-        fgets(dados,199, arquivo);
-        if(strlen(dados) > 0){
-          strcpy(dados, "");
-          pt = strtok(dados, ";");
-            while(pt){
-                for(int i = 0; i){
-                        
-                    }
-                }
-            
-        }
-    }
-    
 
     do
     {
@@ -235,34 +240,60 @@ void alterarContatos(contato usuario[], int i)
         }
         //printf("%c",confimar_acao);
 
-
-
- 
-     fclose(arquivo);
-     arquivo = NULL;
-
-    
+    ordenarContatos(usuario,i);
 
 }
 
-void excluirContatos(contato usuario)
+
+
+void consultarContatos(contato usuario[], int nContatos)
+{
+
+    char nomedousuario[100];
+    char *comp;
+
+    printf("DIGITE O NOME PARA CONSULTA: \n");
+    fflush(stdin);
+    scanf("%[^\n]s", &nomedousuario);
+
+    for (int j = 0; j < nContatos; j++){
+        comp = strstr(usuario[j].nome_contato, nomedousuario);
+        if (comp != NULL){
+            printf("POSIÇÃO: %i\n", j);
+            printf("NOME: %s\n", usuario[j].nome_contato);
+        }
+    }
+}
+
+void excluirContatos(contato usuario[], int *nContatos)
 {
      setlocale(LC_ALL,"");
 
         char confimar;
         int numero_excluir;
 
-     printf("DIGITE QUAL NUMERO DESEJA EXCLUIR. \n");
+    printf("DIGITE QUAL NUMERO DESEJA EXCLUIR. \n");
+    for (int l = 0; l < *nContatos; l++){
+        printf("(%i) - %s\n", l,  usuario[l].nome_contato);
+    }
+    
      scanf("%i", &numero_excluir);
      fflush(stdin);
-     printf("CONFIMAR??( S/N ) \n");
+     printf("CONFIRMAR??( S/N ) \n");
      scanf("%c", &confimar);
      confimar = tolower(confimar);
 
 
      if( confimar == 's')
      {
-         printf("NUMERO APAGADO DA SUA VIDA :3 \n");
+        for (int c = numero_excluir; c < *nContatos; c++)
+        {
+            usuario[c] = usuario[c+1];  
+        }
+
+        printf("CONTATO %i APAGADO DA SUA VIDA :3 \n", numero_excluir);
+        ordenarContatos(usuario, *nContatos);
+        (*nContatos)--;
      } else {
          printf("DESISTIU FOI?? HMM >-<");
      }
@@ -270,22 +301,24 @@ void excluirContatos(contato usuario)
 
 }
 
-void gravarArquivo(contato usuario[100], int nContatos){
+void gravarArquivo(contato usuario[], int nContatos){
 
            // Criação do Arquivo e abertura do arquivo
        
         FILE *ptrArquivo = NULL;
-        ptrArquivo = fopen ("agendinha-da-depressaum.txt", "a");
+
+        //trocado de a para w por que a apenas adiciona contato por contato
+        // porem DA erro quando tentamos excluir entao o melhor é deixar w
+        ptrArquivo = fopen ("agendinha-da-depressaum.txt", "w");
 
             if(ptrArquivo == NULL){
-
-                printf("Algo deu errado..");
-                return;
+                printf("ALGO DEU ERRADO PATRÃO..\n");
+                exit(0);
             }
 
         for(int l = 0; l < nContatos; l++)
             {
-                fprintf(ptrArquivo, "%s; %s; %s; %s; %s;\n", 
+                fprintf(ptrArquivo, "%s;%s;%s;%s;%s;\n", 
                 usuario[l].nome_contato,
                 usuario[l].endereco,
                 usuario[l].telefone,
@@ -296,4 +329,54 @@ void gravarArquivo(contato usuario[100], int nContatos){
         fclose(ptrArquivo);
         ptrArquivo = NULL;
 }
+
+
+
+int lerArquivo(contato usuario[]){
+
+        // Leitura do arquivo já criado
+
+        char *token;
+        char linhazinha[200];
+
+        int i = 0;
+        FILE *ptrArquivo = NULL;
+        ptrArquivo = fopen ("agendinha-da-depressaum.txt", "r");
+        if(ptrArquivo == NULL){
+            printf("ALGO DEU ERRADO PATRÃO..");
+            return 0;
+        }
+
+
+    while( (fgets(linhazinha, sizeof(linhazinha), ptrArquivo) ) != NULL){
+
+        token = strtok(linhazinha, ";");
+
+        strcpy(usuario[i].nome_contato, token);
+
+        token = strtok(NULL, ";");
+
+        strcpy(usuario[i].endereco, token);
+
+        token = strtok(NULL, ";");
+
+        strcpy(usuario[i].telefone, token);
+
+        token = strtok(NULL, ";");
+
+        strcpy(usuario[i].email, token);        
+
+        token = strtok(NULL, ";");
+
+        strcpy(usuario[i].rede_social, token);      
+
+        i++;
+    }
+
+        fclose(ptrArquivo);
+        ptrArquivo = NULL;
+
+        return i;
+}
 //Autor TeusVieira&AliohS
+
