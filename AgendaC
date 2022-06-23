@@ -11,13 +11,14 @@
  {
      char nome_contato [ TAM_NOME ];
      char endereco [300];
-     int tipo_endereco;
      int numero_endereco;
      char telefone [ 12 ];
-     int tipo_telefone;
      char email [ 200 ];
      char rede_social[100];
-     char tipo_de_rede;
+     enum tipo_endereco{Alameda = 1, Avenida, Travessa, Rua, Praca}tiEnd;
+     enum tipo_redeSocial{Insta = 1, Facebook, LinkedIN, Twitter} tiRedeSocial;
+     enum tipo_telefone{Fixo = 1, Comercial, Pessoal} tiTelefone;
+
  } contato ;
 
 
@@ -132,6 +133,14 @@ void adicionarContatos( contato usuario[], int *i)
     fflush(stdin);
     scanf("%[^\n]s", &usuario[*i].nome_contato);
 
+    printf("- TIPO DO ENDEREÇO:");
+    printf("- 1. ALAMEDA:");
+    printf("- 2. AVENIDA:");
+    printf("- 3. TRAVESSA:");
+    printf("- 4. RUA:");
+    printf("- 5. PRAÇA:");
+    scanf("%d",&usuario[*i].tiEnd);
+
     printf(" - ENDEREÇO: \n");
     fflush(stdin);
     scanf("%[^\n]s", &usuario[*i].endereco);
@@ -163,12 +172,12 @@ void listarContatos(contato usuario[], int *numeros_contatos)
     
     for (int j = 0; j < *numeros_contatos; j++){
 
-        printf("CONTATO %i\n", j);
-        printf("NOME: %s\n", usuario[j].nome_contato);
-        printf("TELEFONE: %s\n", usuario[j].telefone);
-        printf("EMAIL: %s\n", usuario[j].email);
-        printf("ENDEREÇO: %s\n", usuario[j].endereco);
-        printf("REDE SOCIAL: %s\n", usuario[j].rede_social);
+        printf("CONTATO %i |", j);
+        printf("NOME: %s |", usuario[j].nome_contato);
+        printf("TELEFONE: %s |", usuario[j].telefone);
+        printf("EMAIL: %s |", usuario[j].email);
+        printf("ENDEREÇO: %s |", usuario[j].endereco);
+        printf("REDE SOCIAL: %s |", usuario[j].rede_social);
         printf("\n");
 
     }
@@ -307,8 +316,7 @@ void gravarArquivo(contato usuario[], int nContatos){
        
         FILE *ptrArquivo = NULL;
 
-        //trocado de a para w por que a apenas adiciona contato por contato
-        // porem DA erro quando tentamos excluir entao o melhor é deixar w
+     
         ptrArquivo = fopen ("agendinha-da-depressaum.txt", "w");
 
             if(ptrArquivo == NULL){
@@ -318,8 +326,9 @@ void gravarArquivo(contato usuario[], int nContatos){
 
         for(int l = 0; l < nContatos; l++)
             {
-                fprintf(ptrArquivo, "%s;%s;%s;%s;%s;\n", 
+                fprintf(ptrArquivo, "%s;%d;%s;%s;%s;%s;\n", 
                 usuario[l].nome_contato,
+                usuario[l].tiEnd,
                 usuario[l].endereco,
                 usuario[l].telefone,
                 usuario[l].email,
